@@ -8,6 +8,7 @@ authors = ["Algirdas Jauniskis <jauniskis.a@gmail.com>"]
 python = "^3.10"
 pre-commit = "^2.20.0"
 fastapi = "0.85.1"
+uvicorn = "0.18.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

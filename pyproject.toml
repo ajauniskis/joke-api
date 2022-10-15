@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "template-python"
-version = "0.1.0"
-description = ""
+name = "joke-api"
+version = "0.0.1-alpha.1"
+description = "Joke Api served with FastApi"
 authors = ["Algirdas Jauniskis <jauniskis.a@gmail.com>"]
+readme = "README.md"
+packages=[{include = "app"}]
+repository="https://github.com/ajauniskis/joke-api"
 
 [tool.poetry.dependencies]
 python = "^3.10"

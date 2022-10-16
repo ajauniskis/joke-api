@@ -1,6 +1,12 @@
 from fastapi import FastAPI
+from app.utils.swagger_params import VERSION, DESCRIPTION, CONTACTS
 
-app = FastAPI()
+app = FastAPI(
+    title="Joke API",
+    description=DESCRIPTION,
+    version=VERSION,
+    contact=CONTACTS,
+)
 
 
 @app.get("/")

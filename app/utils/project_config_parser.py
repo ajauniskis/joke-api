@@ -13,9 +13,9 @@ class ProjectConfigParser:
     def read_project_config(self) -> Dict | None:
         try:
             return toml.load(self.config_file_path)
-        except FileNotFoundError as e:
+        except FileNotFoundError:
             logger.error(f"Failed to find project config at: {self.config_file_path}")
-        except toml.decoder.TomlDecodeError as e:
+        except toml.decoder.TomlDecodeError:
             logger.error(f"Failed to parse project config at: {self.config_file_path}")
 
     def get_project_version(self) -> str:

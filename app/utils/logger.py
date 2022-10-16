@@ -1,3 +1,3 @@
-from fastapi.logger import logger
+import logging
 
-logger = logger
+logger = logging.getLogger("uvicorn.info")

@@ -11,6 +11,7 @@ class ProjectConfigParser:
         self.project_config = self.read_project_config()
 
     def read_project_config(self) -> Dict | None:
+        logger.info(f"Reading project config from: {self.config_file_path}")
         try:
             return toml.load(self.config_file_path)
         except FileNotFoundError:

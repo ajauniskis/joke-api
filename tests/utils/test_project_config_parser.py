@@ -1,6 +1,8 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+from toml.decoder import TomlDecodeError
+
 from app.utils.project_config_parser import ProjectConfigParser
 
 SAMPLE_CONFIG = {
@@ -34,6 +36,29 @@ class TestProjectConfigParser(TestCase):
         self.assertEqual(
             actual.project_config,
             SAMPLE_CONFIG,
+        )
+
+    def test_read_project_config_invalid_file_location__logs_error(self):
+        self.pcp.config_file_path = "invalid/path"
+
+        with self.assertLogs() as logger_context:
+            self.pcp.read_project_config()
+
+        self.assertEqual(
+            logger_context.output[1],
+            "ERROR:uvicorn.info:Failed to find project config at:"
+            + f" {self.pcp.config_file_path}",
+        )
+
+    @patch("toml.load", side_effect=TomlDecodeError("", "", 0))
+    def test_read_project_config_invalid_file_structure__logs_error(self, mock_toml):
+        with self.assertLogs() as logger_context:
+            self.pcp.read_project_config()
+
+        self.assertEqual(
+            logger_context.output[1],
+            "ERROR:uvicorn.info:Failed to parse project config at:"
+            + f" {self.pcp.config_file_path}",
         )
 
     def test_get_project_version__returns_version(self):
@@ -70,7 +95,7 @@ class TestProjectConfigParser(TestCase):
             "N/A",
         )
 
-    def test_get_project_contacts_returns_version(self):
+    def test_get_project_contacts__returns_version(self):
         actual = self.pcp.get_project_contacts()
 
         self.assertEqual(

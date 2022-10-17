@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from app.core.settings import Settings
+from app.core.settings import get_settings
 
-settings = Settings()
+settings = get_settings()
 config = settings.ProjectConfigParser()
 app = FastAPI(
     title=settings.app_name,

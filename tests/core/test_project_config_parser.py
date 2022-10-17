@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from toml.decoder import TomlDecodeError
 
-from app.core.settings import Settings
+from app.core.settings import get_settings
 
 SAMPLE_CONFIG = {
     "tool": {
@@ -24,14 +24,14 @@ class TestProjectConfigParser(TestCase):
     @patch("toml.load")
     def setUp(self, mock_toml) -> None:
         mock_toml.return_value = SAMPLE_CONFIG
-        self.pcp = Settings().ProjectConfigParser()
+        self.pcp = get_settings().ProjectConfigParser()
 
     @patch("toml.load")
     def test_read_project_config__returns_config(self, mock_toml):
 
         mock_toml.return_value = SAMPLE_CONFIG
 
-        actual = Settings().ProjectConfigParser()
+        actual = get_settings().ProjectConfigParser()
 
         self.assertEqual(
             actual.project_config,

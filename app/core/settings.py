@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Dict
 
 import toml
@@ -48,3 +49,8 @@ class Settings(BaseSettings):
                 }
             else:
                 return {}
+
+
+@lru_cache()
+def get_settings() -> Settings:
+    return Settings()

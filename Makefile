@@ -29,3 +29,7 @@ lint: black pyright bandit flake
 
 test:
 	poetry run pytest -v
+
+isort:
+	isort app/.
+	isort tests/.

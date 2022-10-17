@@ -11,7 +11,7 @@ poetry_install:
 	curl -sSL https://install.python-poetry.org | python3 -
 
 run:
-	$(venv_activate); uvicorn app.main:app --reload
+	$(venv_activate); uvicorn app.core.app:app --reload
 
 black:
 	poetry run black --check --verbose .

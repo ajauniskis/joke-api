@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from app.api.v1.router import api_v1_router
 from app.core.settings import get_settings
 
 settings = get_settings()
@@ -12,6 +13,4 @@ app = FastAPI(
 )
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+app.include_router(api_v1_router)

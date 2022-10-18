@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from app.api.index import index_router
 from app.api.v1.router import api_v1_router
 from app.core.settings import get_settings
 
@@ -14,3 +15,4 @@ app = FastAPI(
 
 
 app.include_router(api_v1_router)
+app.include_router(index_router)

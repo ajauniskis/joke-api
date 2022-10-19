@@ -10,3 +10,4 @@ class InfoResponse(BaseModel):
     description: str
     version: str
     contacts: InfoContactsUrlResponse
+    categories: list

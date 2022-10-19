@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     """Application settings."""
 
     app_name = "Joke API"
+    categories = ["dev", "dogs"]
 
     class ProjectConfigParser:
         def __init__(self, config_file_path: str = "pyproject.toml") -> None:

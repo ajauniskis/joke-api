@@ -11,7 +11,7 @@ poetry_install:
 	curl -sSL https://install.python-poetry.org | python3 -
 
 run:
-	@echo "Run target in Makefile not configured."
+	$(venv_activate); uvicorn app.core.app:app --reload
 
 black:
 	poetry run black --check --verbose .
@@ -29,3 +29,7 @@ lint: black pyright bandit flake
 
 test:
 	poetry run pytest -v
+
+isort:
+	isort app/.
+	isort tests/.

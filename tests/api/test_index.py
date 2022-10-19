@@ -3,7 +3,6 @@ from unittest import TestCase
 from fastapi.testclient import TestClient
 
 from app.core.app import app
-from app.core.settings import get_settings
 
 
 class TestIndex(TestCase):

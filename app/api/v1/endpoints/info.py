@@ -15,7 +15,7 @@ router = APIRouter(
     summary="Get application info.",
     status_code=200,
 )
-async def get_info():
+async def get_info() -> InfoResponse:
     info = get_settings().ProjectConfigParser()
     return InfoResponse(
         title=get_settings().app_name,

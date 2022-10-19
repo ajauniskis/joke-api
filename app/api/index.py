@@ -8,5 +8,5 @@ index_router = APIRouter()
     "/",
     include_in_schema=False,
 )
-def docs_redirect():
+def docs_redirect() -> RedirectResponse:
     return RedirectResponse("/docs")

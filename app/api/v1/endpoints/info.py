@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.schemas.info import InfoResponse, InfoContactsUrlResponse
+from app.api.v1.schemas.info import InfoContactsUrlResponse, InfoResponse
 from app.core.settings import get_settings
 
 router = APIRouter(

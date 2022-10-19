@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.schemas.info import Info, InfoContactsUrl
+from app.api.v1.schemas.info import InfoResponse, InfoContactsUrlResponse
 from app.core.settings import get_settings
 
 router = APIRouter(
@@ -11,17 +11,17 @@ router = APIRouter(
 
 @router.get(
     "/",
-    response_model=Info,
+    response_model=InfoResponse,
     summary="Get application info.",
     status_code=200,
 )
 async def get_info():
     info = get_settings().ProjectConfigParser()
-    return Info(
+    return InfoResponse(
         title=get_settings().app_name,
         description=info.get_project_description(),
         version=info.get_project_version(),
-        contacts=InfoContactsUrl(
+        contacts=InfoContactsUrlResponse(
             url=info.get_project_contacts()["url"],
         ),
     )

@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 
 
-class InfoContactsUrl(BaseModel):
+class InfoContactsUrlResponse(BaseModel):
     url: str
 
 
-class Info(BaseModel):
+class InfoResponse(BaseModel):
     title: str
     description: str
     version: str
-    contacts: InfoContactsUrl
+    contacts: InfoContactsUrlResponse

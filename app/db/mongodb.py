@@ -26,8 +26,6 @@ class MongoClient:
         self.database_name = settings.database_name
         self.database = self._get_database()
         self.categories = get_settings().categories
-        self.collections = self.list_collections()
-        self.collection_names = self.list_collection_names()
 
     def _create_client(self) -> AsyncIOMotorClient:
         logger.info(
@@ -52,7 +50,7 @@ class MongoClient:
                 await self._create_collection(collection_name=category)
                 logger.info(f"Created collection: {category}")
             except CollectionInvalid as e:
-                logger.info(f"Failed to create collection: {e}")
+                logger.warn(f"Failed to create collection: {e}")
 
     async def drop_collection(self, collection: AsyncIOMotorCollection) -> None:
         collection.drop()

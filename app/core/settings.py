@@ -12,6 +12,17 @@ class Settings(BaseSettings):
 
     app_name = "Joke API"
     categories = ["dev", "dogs"]
+    """Database variables"""
+    environment: str
+    database_host: str
+    database_port: int
+    database_user: str
+    database_password: str
+    database_name: str = "joke_api"
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
 
     class ProjectConfigParser:
         def __init__(self, config_file_path: str = "pyproject.toml") -> None:
@@ -54,4 +65,4 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    return Settings()
+    return Settings()  # pyright:  ignore [reportGeneralTypeIssues]

@@ -11,7 +11,7 @@ poetry_install:
 	curl -sSL https://install.python-poetry.org | python3 -
 
 run:
-	$(venv_activate); uvicorn app.core.app:app --reload
+	poetry run uvicorn app.core.app:app --reload
 
 black:
 	poetry run black --check --verbose .
@@ -33,3 +33,9 @@ test:
 isort:
 	isort app/.
 	isort tests/.
+
+compose:
+	docker-compose up -d
+
+compose-down:
+	docker-compose down

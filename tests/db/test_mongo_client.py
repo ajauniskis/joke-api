@@ -2,8 +2,8 @@ from unittest import IsolatedAsyncioTestCase
 
 import pytest
 
-from app.db.client import MongoClient
-from app.db.database import MongoDatabaseClient
+from app.db.database import DatabaseClient
+from app.db.mongodb import MongoClient
 from app.db.models.joke import JokeModel
 
 
@@ -12,20 +12,20 @@ class TestMongoClient(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self.test_collection_name = "test_collection"
 
-        class TestMongoDatabaseClient(MongoDatabaseClient):
+        class TestMongoClient(MongoClient):
             def __init__(self) -> None:
                 super().__init__()
                 self.categories = ["test_collection"]
 
-        self.client = MongoClient()
-        self.client.database_client = TestMongoDatabaseClient()
-        await self.client.database_client.create_collections()
+        self.client = DatabaseClient()
+        self.client.mongo_client = TestMongoClient()
+        await self.client.mongo_client.create_collections()
 
     async def asyncTearDown(self) -> None:
-        test_collection = await self.client.database_client.get_collection(
+        test_collection = await self.client.mongo_client.get_collection(
             self.test_collection_name
         )
-        await self.client.database_client.drop_collection(test_collection)
+        await self.client.mongo_client.drop_collection(test_collection)
 
     async def test_write__returns_joke(self):
         jk = JokeModel(

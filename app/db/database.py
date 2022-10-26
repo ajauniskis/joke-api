@@ -6,20 +6,20 @@ from app.db.mongodb import get_client
 from app.db.models.joke import JokeModel
 
 
-class MongoClient:
+class DatabaseClient:
     def __init__(self) -> None:
-        self.database_client = get_client()
+        self.mongo_client = get_client()
 
     async def read_all(
         self, collection_name: str, page_size: int = 100
     ) -> list[JokeModel]:
-        collection = await self.database_client.get_collection(collection_name)
+        collection = await self.mongo_client.get_collection(collection_name)
 
         response = await collection.find().to_list(page_size)
         return [JokeModel(**resp) for resp in response]
 
     async def read_random(self, collection_name) -> JokeModel:
-        collection = await self.database_client.get_collection(collection_name)
+        collection = await self.mongo_client.get_collection(collection_name)
 
         cur = collection.aggregate([{"$sample": {"size": 1}}])
         response = await cur.next()
@@ -27,7 +27,7 @@ class MongoClient:
         return JokeModel(**response)
 
     async def write(self, record: JokeModel, collection_name: str) -> JokeModel:
-        collection = await self.database_client.get_collection(collection_name)
+        collection = await self.mongo_client.get_collection(collection_name)
 
         record.inserted_at = datetime.now()
         record = jsonable_encoder(record)
@@ -38,4 +38,4 @@ class MongoClient:
         return created_model
 
 
-client = MongoClient()
+client = DatabaseClient()

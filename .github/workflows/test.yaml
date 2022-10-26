@@ -21,5 +21,18 @@ jobs:
         with:
           PYTHON_VERSION: ${{ inputs.PYTHON_VERSION }}
 
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: 6.0
+          mongodb-port: ${{ secrets.DATABASE_PORT }}
+          mongodb-username: ${{ secrets.DATABASE_USER }}
+          mongodb-password: ${{ secrets.DATABASE_PASSWORD }}
+
       - name: Pytest
         run: poetry run pytest -v

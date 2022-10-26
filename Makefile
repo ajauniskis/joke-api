@@ -31,8 +31,7 @@ test:
 	poetry run pytest -v
 
 isort:
-	isort app/.
-	isort tests/.
+	poetry run isort app/. tests/.
 
 compose:
 	docker-compose up -d

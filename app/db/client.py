@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi.encoders import jsonable_encoder
 
-from app.db.database import get_client
+from app.db.mongodb import get_client
 from app.db.models.joke import JokeModel
 
 

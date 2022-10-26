@@ -11,7 +11,7 @@ from app.core.logger import logger
 from app.core.settings import get_settings
 
 
-class MongoDatabaseClient:
+class MongoClient:
     def __init__(self) -> None:
         settings = get_settings()
         self.database_host = settings.database_host
@@ -75,5 +75,5 @@ class MongoDatabaseClient:
 
 
 @lru_cache()
-def get_client() -> MongoDatabaseClient:
-    return MongoDatabaseClient()
+def get_client() -> MongoClient:
+    return MongoClient()

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app.api.index import index_router
 from app.api.v1.router import api_v1_router
 from app.core.settings import get_settings
-from app.db.database import MongoDatabaseClient
+from app.db.mongodb import MongoClient
 
 settings = get_settings()
 config = settings.ProjectConfigParser()
@@ -17,7 +17,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def connect_database():
-    mongo = MongoDatabaseClient()
+    mongo = MongoClient()
     await mongo.create_collections()
 
 

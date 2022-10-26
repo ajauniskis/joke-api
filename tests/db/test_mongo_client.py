@@ -3,8 +3,8 @@ from unittest import IsolatedAsyncioTestCase
 import pytest
 
 from app.db.database import DatabaseClient
-from app.db.mongodb import MongoClient
 from app.db.models.joke import JokeModel
+from app.db.mongodb import MongoClient
 
 
 @pytest.mark.asyncio

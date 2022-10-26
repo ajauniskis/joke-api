@@ -2,8 +2,8 @@ from datetime import datetime
 
 from fastapi.encoders import jsonable_encoder
 
-from app.db.mongodb import get_client
 from app.db.models.joke import JokeModel
+from app.db.mongodb import get_client
 
 
 class DatabaseClient:

@@ -1,5 +1,5 @@
 from functools import lru_cache
-from typing import Dict
+from typing import Dict, Optional
 
 import toml
 from pydantic import BaseSettings, SecretStr
@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     """Database variables"""
     environment: str
     database_host: str
-    database_port: int
+    database_port: Optional[int]
     database_user: str
     database_password: SecretStr
     database_name: str = "joke_api"

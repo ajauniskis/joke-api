@@ -5,13 +5,6 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-  DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-  DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-  DATABASE_USER: ${{ secrets.DATABASE_USER }}
-  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-
 jobs:
 
   lint:
@@ -27,6 +20,7 @@ jobs:
     name: Test
     uses: ./.github/workflows/test.yaml
     needs: lint
+    secrets: inherit
 
   deploy:
     name: Deploy

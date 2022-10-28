@@ -2,7 +2,7 @@ from functools import lru_cache
 from typing import Dict
 
 import toml
-from pydantic import BaseSettings
+from pydantic import BaseSettings, SecretStr
 
 from app.core.logger import logger
 
@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     database_host: str
     database_port: int
     database_user: str
-    database_password: str
+    database_password: SecretStr
     database_name: str = "joke_api"
 
     class Config:

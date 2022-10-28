@@ -19,8 +19,10 @@ class MongoClient:
         self.database_user = settings.database_user
         self.database_password = settings.database_password
         self.database_url = (
-            f"mongodb://{self.database_user}:{self.database_password.get_secret_value()}"
-            + f"@{self.database_host}:{self.database_port}"
+            f"mongodb://{self.database_user}"
+            + f":{self.database_password.get_secret_value()}"
+            + f"@{self.database_host}"
+            + f":{self.database_port}"
         )
         self.client = self._create_client()
         self.database_name = settings.database_name

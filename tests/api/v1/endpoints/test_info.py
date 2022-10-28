@@ -11,10 +11,10 @@ class TestInfo(TestCase):
         self.client = TestClient(app)
 
     def test_get_info__returns_200(self):
-        response = self.client.get("/api/v1/info")
+        response = self.client.get("/api/v1/info").status_code
 
         self.assertEqual(
-            response.status_code,
+            response,
             200,
         )
 
@@ -28,9 +28,9 @@ class TestInfo(TestCase):
             "contacts": config.get_project_contacts(),
             "categories": settings.categories,
         }
-        response = self.client.get("/api/v1/info")
+        actual = self.client.get("/api/v1/info").json()
 
         self.assertEqual(
-            response.json(),
+            actual,
             expected,
         )

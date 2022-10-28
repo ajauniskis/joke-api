@@ -14,15 +14,16 @@ from app.core.settings import get_settings
 class MongoClient:
     def __init__(self) -> None:
         settings = get_settings()
+        mongo_driver = "mongodb+srv" if settings.environment == "prod" else "mongodb"
         self.database_host = settings.database_host
         self.database_port = settings.database_port
         self.database_user = settings.database_user
         self.database_password = settings.database_password
         self.database_url = (
-            f"mongodb://{self.database_user}"
+            f"{mongo_driver}://{self.database_user}"
             + f":{self.database_password.get_secret_value()}"
             + f"@{self.database_host}"
-            + f":{self.database_port}"
+            + ("" if settings.environment == "prod" else f":{self.database_port}")
         )
         self.client = self._create_client()
         self.database_name = settings.database_name

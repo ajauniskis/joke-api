@@ -24,4 +24,5 @@ async def get_info() -> InfoResponse:
         contacts=InfoContactsUrlResponse(
             url=info.get_project_contacts()["url"],
         ),
+        categories=get_settings().categories,
     )

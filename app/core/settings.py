@@ -1,8 +1,8 @@
 from functools import lru_cache
-from typing import Dict
+from typing import Dict, Optional
 
 import toml
-from pydantic import BaseSettings
+from pydantic import BaseSettings, SecretStr
 
 from app.core.logger import logger
 
@@ -11,6 +11,18 @@ class Settings(BaseSettings):
     """Application settings."""
 
     app_name = "Joke API"
+    categories = ["dev", "dogs"]
+    """Database variables"""
+    environment: str
+    database_host: str
+    database_port: Optional[int]
+    database_user: str
+    database_password: SecretStr
+    database_name: str = "joke_api"
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
 
     class ProjectConfigParser:
         def __init__(self, config_file_path: str = "pyproject.toml") -> None:
@@ -53,4 +65,4 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    return Settings()
+    return Settings()  # pyright:  ignore [reportGeneralTypeIssues]

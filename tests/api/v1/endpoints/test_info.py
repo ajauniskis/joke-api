@@ -26,6 +26,7 @@ class TestInfo(TestCase):
             "description": config.get_project_description(),
             "version": config.get_project_version(),
             "contacts": config.get_project_contacts(),
+            "categories": settings.categories,
         }
         response = self.client.get("/api/v1/info")
 

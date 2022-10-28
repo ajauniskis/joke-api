@@ -20,6 +20,7 @@ jobs:
     name: Test
     uses: ./.github/workflows/test.yaml
     needs: lint
+    secrets: inherit
 
   deploy:
     name: Deploy

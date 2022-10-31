@@ -9,6 +9,7 @@ from pymongo.errors import CollectionInvalid, OperationFailure
 
 from app.core.logger import logger
 from app.core.settings import get_settings
+from asyncio import get_event_loop
 
 
 class MongoClient:
@@ -35,6 +36,7 @@ class MongoClient:
             f"Connecting to database: {self.database_host}:{self.database_port}"
         )
         client = AsyncIOMotorClient(self.database_url)
+        client.get_io_loop = get_event_loop
         try:
             client.list_database_names()
             return client

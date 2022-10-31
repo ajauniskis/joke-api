@@ -1,3 +1,4 @@
+from asyncio import get_event_loop
 from functools import lru_cache
 
 from motor.motor_asyncio import (
@@ -9,7 +10,6 @@ from pymongo.errors import CollectionInvalid, OperationFailure
 
 from app.core.logger import logger
 from app.core.settings import get_settings
-from asyncio import get_event_loop
 
 
 class MongoClient:

@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 
 from app.api.v1.schemas.joke import PostJokeRequest
 from app.core.app import app
+from app.core.settings import get_settings
 from app.db.mongodb import get_client
 
 
@@ -12,6 +13,7 @@ from app.db.mongodb import get_client
 class TestJoke(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self.test_collection_name = "test_collection"
+        get_settings().categories = [self.test_collection_name]
         self.mongo_client = get_client()
         await self.mongo_client._create_collection(self.test_collection_name)
         self.client = TestClient(app)
@@ -51,8 +53,16 @@ class TestJoke(IsolatedAsyncioTestCase):
             expected,
         )
 
-    def test_post_joke_invalid_question_format__returns_400(self):
-        expected = {"detail": "Question cannot be empty"}
+    def test_post_joke_invalid_question_format__returns_422(self):
+        expected = {
+            "detail": [
+                {
+                    "loc": ["body", "question"],
+                    "msg": "value must not be empty",
+                    "type": "value_error",
+                }
+            ]
+        }
         invalid_questions = [
             "",
             " ",
@@ -73,11 +83,19 @@ class TestJoke(IsolatedAsyncioTestCase):
 
             self.assertEqual(
                 response.status_code,
-                400,
+                422,
             )
 
     def test_post_joke_invalid_punchline_format__returns_400(self):
-        expected = {"detail": "Punchline cannot be empty"}
+        expected = {
+            "detail": [
+                {
+                    "loc": ["body", "punchline"],
+                    "msg": "value must not be empty",
+                    "type": "value_error",
+                }
+            ]
+        }
         invalid_questions = [
             "",
             " ",
@@ -98,11 +116,19 @@ class TestJoke(IsolatedAsyncioTestCase):
 
             self.assertEqual(
                 response.status_code,
-                400,
+                422,
             )
 
     def test_post_joke_invalid_category__returns_400(self):
-        expected = {"detail": "Collection not found: invalid_question"}
+        expected = {
+            "detail": [
+                {
+                    "loc": ["body", "category"],
+                    "msg": "value must be in ['test_collection']",
+                    "type": "value_error",
+                }
+            ]
+        }
         self.post_joke_request.category = "invalid_question"
         response = self.client.post(
             "/api/v1/joke/",
@@ -116,5 +142,5 @@ class TestJoke(IsolatedAsyncioTestCase):
 
         self.assertEqual(
             response.status_code,
-            400,
+            422,
         )

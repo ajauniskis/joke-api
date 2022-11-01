@@ -1,5 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
+from app.core.settings import get_settings
 from app.db.models.joke import JokeModel
 
 
@@ -15,20 +16,35 @@ class PostJokeRequest(BaseModel):
     question: str
     punchline: str
 
-    async def to_database_model(self) -> JokeModel:
-        if (
-            self.question is None
-            or not isinstance(self.question, str)
-            or self.question.strip() == ""
-        ):
-            raise ValueError("Question cannot be empty")
-        if (
-            self.punchline is None
-            or not isinstance(self.question, str)
-            or self.punchline.strip() == ""
-        ):
-            raise ValueError("Punchline cannot be empty")
+    @validator("category")
+    def category_value_must_not_be_empty(cls, value):
+        if value.strip() == "":
+            raise ValueError("value must not be empty")
 
+        return value
+
+    @validator("category")
+    def category_value_must_be_in_allowed_categories(cls, value):
+        if value not in get_settings().categories:
+            raise ValueError(f"value must be in {get_settings().categories}")
+
+        return value
+
+    @validator("question")
+    def question_value_must_not_be_empty(cls, value):
+        if value.strip() == "":
+            raise ValueError("value must not be empty")
+
+        return value
+
+    @validator("punchline")
+    def punchline_value_must_not_be_empty(cls, value):
+        if value.strip() == "":
+            raise ValueError("value must not be empty")
+
+        return value
+
+    async def to_database_model(self) -> JokeModel:
         return JokeModel(
             question=self.question,
             punchline=self.punchline,

@@ -53,73 +53,39 @@ class TestJoke(IsolatedAsyncioTestCase):
             expected,
         )
 
-    def test_post_joke_invalid_question_format__returns_422(self):
-        expected = {
-            "detail": [
-                {
-                    "loc": ["body", "question"],
-                    "msg": "value must not be empty",
-                    "type": "value_error",
+    def test_post_joke_invalid_format__returns_422(self):
+        invalid_items = ["", " "]
+        for item in ["category", "question", "punchline"]:
+            post_joke_request = self.post_joke_request.dict()
+
+            for invalid_item in invalid_items:
+                expected = {
+                    "detail": [
+                        {
+                            "loc": ["body", item],
+                            "msg": "value must not be empty",
+                            "type": "value_error",
+                        }
+                    ]
                 }
-            ]
-        }
-        invalid_questions = [
-            "",
-            " ",
-        ]
 
-        for invalid_question in invalid_questions:
+                post_joke_request[item] = invalid_item
+                response = self.client.post(
+                    "/api/v1/joke/",
+                    json=post_joke_request,
+                )
 
-            self.post_joke_request.question = invalid_question
-            response = self.client.post(
-                "/api/v1/joke/",
-                json=self.post_joke_request.dict(),
-            )
+                self.assertEqual(
+                    response.json(),
+                    expected,
+                )
 
-            self.assertEqual(
-                response.json(),
-                expected,
-            )
+                self.assertEqual(
+                    response.status_code,
+                    422,
+                )
 
-            self.assertEqual(
-                response.status_code,
-                422,
-            )
-
-    def test_post_joke_invalid_punchline_format__returns_400(self):
-        expected = {
-            "detail": [
-                {
-                    "loc": ["body", "punchline"],
-                    "msg": "value must not be empty",
-                    "type": "value_error",
-                }
-            ]
-        }
-        invalid_questions = [
-            "",
-            " ",
-        ]
-
-        for invalid_question in invalid_questions:
-
-            self.post_joke_request.punchline = invalid_question
-            response = self.client.post(
-                "/api/v1/joke/",
-                json=self.post_joke_request.dict(),
-            )
-
-            self.assertEqual(
-                response.json(),
-                expected,
-            )
-
-            self.assertEqual(
-                response.status_code,
-                422,
-            )
-
-    def test_post_joke_invalid_category__returns_400(self):
+    def test_post_joke_invalid_category__returns_422(self):
         expected = {
             "detail": [
                 {

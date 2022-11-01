@@ -10,7 +10,7 @@ class JokeModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     question: str
     punchline: str
-    inserted_at: datetime | None = None
+    inserted_at: datetime = Field(default_factory=datetime.now)
 
     class Config:
         allow_population_by_field_name = True

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from fastapi.encoders import jsonable_encoder
 
 from app.db.models.joke import JokeModel
@@ -29,7 +27,6 @@ class DatabaseClient:
     async def write(self, record: JokeModel, collection_name: str) -> JokeModel:
         collection = await self.mongo_client.get_collection(collection_name)
 
-        record.inserted_at = datetime.now()
         record = jsonable_encoder(record)
         new_record = await collection.insert_one(record)
         created_record = await collection.find_one({"_id": new_record.inserted_id})

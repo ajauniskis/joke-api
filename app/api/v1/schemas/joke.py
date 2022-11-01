@@ -16,8 +16,8 @@ class PostJokeRequest(BaseModel):
     question: str
     punchline: str
 
-    @validator("category")
-    def category_value_must_not_be_empty(cls, value):
+    @validator("category", "question", "punchline")
+    def value_must_not_be_empty(cls, value):
         if value.strip() == "":
             raise ValueError("value must not be empty")
 
@@ -27,20 +27,6 @@ class PostJokeRequest(BaseModel):
     def category_value_must_be_in_allowed_categories(cls, value):
         if value not in get_settings().categories:
             raise ValueError(f"value must be in {get_settings().categories}")
-
-        return value
-
-    @validator("question")
-    def question_value_must_not_be_empty(cls, value):
-        if value.strip() == "":
-            raise ValueError("value must not be empty")
-
-        return value
-
-    @validator("punchline")
-    def punchline_value_must_not_be_empty(cls, value):
-        if value.strip() == "":
-            raise ValueError("value must not be empty")
 
         return value
 

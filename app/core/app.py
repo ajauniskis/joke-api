@@ -12,6 +12,7 @@ app = FastAPI(
     description=config.get_project_description(),
     version=config.get_project_version(),
     contact=config.get_project_contacts(),
+    swagger_ui_parameters={"defaultModelsExpandDepth": 0},
 )
 
 

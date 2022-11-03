@@ -10,18 +10,18 @@ class TestIndex(TestCase):
         self.client = TestClient(app)
 
     def test_get_index__returns_200(self):
-        response = self.client.get("/")
+        actual = self.client.get("/").status_code
 
         self.assertEqual(
-            response.status_code,
+            actual,
             200,
         )
 
-    def test_get_info__redirects_to_docs(self):
-        actual = self.client.get("/")
-        expected = self.client.get("/docs")
+    def test_get_index__redirects_to_docs(self):
+        actual = self.client.get("/").url
+        expected = self.client.get("/docs").url
 
         self.assertEqual(
-            actual.url,
-            expected.url,
+            actual,
+            expected,
         )

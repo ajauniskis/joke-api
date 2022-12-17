@@ -9,10 +9,11 @@ settings = get_settings()
 config = settings.ProjectConfigParser()
 app = FastAPI(
     title=settings.app_name,
-    description=config.get_project_description(),
-    version=config.get_project_version(),
-    contact=config.get_project_contacts(),
+    description=config.description,
+    version=config.version,
+    contact=config.contacts,
     swagger_ui_parameters={"defaultModelsExpandDepth": 0},
+    license_info=config.license,
 )
 
 

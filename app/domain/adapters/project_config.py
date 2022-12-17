@@ -1,12 +1,19 @@
+from fastapi import Depends
+
 from app.core.logger import logger
-from app.core.settings import get_settings
+from app.core.settings import ProjectConfigParser
 from app.domain import exceptions
 from app.domain.adapters.base import BaseAdapter
 from app.domain.models.project_config import Contacts, License, ProjectConfig
 
 
 class ProjectConfigAdapter(BaseAdapter):
-    project_config = get_settings().ProjectConfigParser()
+    def __init__(
+        self,
+        project_config: ProjectConfigParser = Depends(ProjectConfigParser),
+    ) -> None:
+        super().__init__()
+        self.project_config = project_config
 
     async def get(self) -> ProjectConfig:
         return ProjectConfig(

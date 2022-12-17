@@ -1,10 +1,17 @@
+from fastapi import Depends
+
 from app.api.v1.schemas.joke import PostJokeRequest, PostJokeRespone
 from app.db.database import client as database
 from app.domain.adapters.base import BaseAdapter
 
 
 class JokeAdapter(BaseAdapter):
-    joke_repository = NotImplemented
+    def __init__(
+        self,
+        joke_repository=Depends(None),
+    ) -> None:
+        super().__init__()
+        self.joke_repository = joke_repository
 
     async def get(self):
         raise NotImplementedError

@@ -1,14 +1,39 @@
 from unittest import TestCase
 
 from fastapi.testclient import TestClient
+from pydantic import HttpUrl
 
+from app.api.v1.schemas.info import (InfoContactsUrlResponse,
+                                     InfoLicenseResponse, InfoResponse)
 from app.core.app import app
-from app.core.settings import get_settings
+from app.domain.adapters.base import BaseAdapter
+from app.domain.adapters.info import InfoAdapter
+
+
+class InfoAdapterOverride(BaseAdapter):
+    async def get(self) -> InfoResponse:
+        return InfoResponse(
+            title="title",
+            description="description",
+            version="version",
+            contacts=InfoContactsUrlResponse(
+                url=HttpUrl("http://localhost", scheme="https")
+            ),
+            categories=["category"],
+            license=InfoLicenseResponse(
+                name="name",
+                url=HttpUrl("http://localhost", scheme="https"),
+            ),
+        )
+
+    async def post(self) -> None:
+        pass
 
 
 class TestInfo(TestCase):
     def setUp(self) -> None:
         self.client = TestClient(app)
+        app.dependency_overrides[InfoAdapter] = InfoAdapterOverride
 
     def test_get_info__returns_200(self):
         response = self.client.get("/api/v1/info").status_code
@@ -19,19 +44,17 @@ class TestInfo(TestCase):
         )
 
     def test_get_info__returns_info(self):
-        settings = get_settings()
-        config = settings.ProjectConfigParser()
         expected = {
-            "title": settings.app_name,
-            "description": config.description,
-            "version": config.version,
+            "title": "title",
+            "description": "description",
+            "version": "version",
             "contacts": {
-                "url": str(config.contacts["url"]),
+                "url": "http://localhost",
             },
-            "categories": settings.categories,
+            "categories": ["category"],
             "license": {
-                "name": config.license_name,
-                "url": str(config.license_url),
+                "name": "name",
+                "url": "http://localhost",
             },
         }
         actual = self.client.get("/api/v1/info").json()

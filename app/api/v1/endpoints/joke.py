@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.exceptions import HTTPException
 
 from app.api.v1.schemas.joke import PostJokeRequest, PostJokeRespone
@@ -9,8 +9,6 @@ router = APIRouter(
     tags=["joke"],
 )
 
-joke_adapter = JokeAdapter()
-
 
 @router.post(
     "/",
@@ -18,7 +16,9 @@ joke_adapter = JokeAdapter()
     response_model=PostJokeRespone,
     status_code=201,
 )
-async def joke(request: PostJokeRequest) -> PostJokeRespone:
+async def joke(
+    request: PostJokeRequest, joke_adapter: JokeAdapter = Depends(JokeAdapter)
+) -> PostJokeRespone:
     try:
         response = await joke_adapter.post(request)
     except ValueError as e:

@@ -1,3 +1,5 @@
+from fastapi import Depends
+
 from app.api.v1.schemas.info import (
     InfoContactsUrlResponse,
     InfoLicenseResponse,
@@ -11,8 +13,14 @@ from app.domain.adapters.settings import SettingsAdapter
 
 
 class InfoAdapter(BaseAdapter):
-    settings_adapter = SettingsAdapter()
-    project_config_adapter = ProjectConfigAdapter()
+    def __init__(
+        self,
+        settings_adapter: SettingsAdapter = Depends(SettingsAdapter),
+        project_config_adapter: ProjectConfigAdapter = Depends(ProjectConfigAdapter),
+    ) -> None:
+        super().__init__
+        self.settings_adapter = settings_adapter
+        self.project_config_adapter = project_config_adapter
 
     async def get(self) -> InfoResponse:
         settings = await self.settings_adapter.get()

@@ -62,7 +62,7 @@ class TestProjectConfigParser(TestCase):
         )
 
     def test_get_project_version__returns_version(self):
-        actual = self.pcp.get_project_version()
+        actual = self.pcp.version
 
         self.assertEqual(
             actual,
@@ -71,7 +71,7 @@ class TestProjectConfigParser(TestCase):
 
     def test_get_project_version_key_not_found__returns_NA(self):
         self.pcp.project_config = None
-        actual = self.pcp.get_project_version()
+        actual = self.pcp.version
 
         self.assertEqual(
             actual,
@@ -79,7 +79,7 @@ class TestProjectConfigParser(TestCase):
         )
 
     def test_get_project_description__returns_version(self):
-        actual = self.pcp.get_project_description()
+        actual = self.pcp.description
 
         self.assertEqual(
             actual,
@@ -88,7 +88,7 @@ class TestProjectConfigParser(TestCase):
 
     def test_get_project_description_key_not_found__returns_NA(self):
         self.pcp.project_config = None
-        actual = self.pcp.get_project_description()
+        actual = self.pcp.description
 
         self.assertEqual(
             actual,
@@ -96,7 +96,7 @@ class TestProjectConfigParser(TestCase):
         )
 
     def test_get_project_contacts__returns_version(self):
-        actual = self.pcp.get_project_contacts()
+        actual = self.pcp.contacts
 
         self.assertEqual(
             actual,
@@ -105,7 +105,7 @@ class TestProjectConfigParser(TestCase):
 
     def test_get_project_contacts_key_not_found__returns_empty(self):
         self.pcp.project_config = None
-        actual = self.pcp.get_project_contacts()
+        actual = self.pcp.contacts
 
         self.assertEqual(
             actual,

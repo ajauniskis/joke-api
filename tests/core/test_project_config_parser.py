@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from toml.decoder import TomlDecodeError
 
-from app.core.settings import get_settings
+from app.core.settings import ProjectConfigParser
 
 SAMPLE_CONFIG = {
     "tool": {
@@ -24,14 +24,14 @@ class TestProjectConfigParser(TestCase):
     @patch("toml.load")
     def setUp(self, mock_toml) -> None:
         mock_toml.return_value = SAMPLE_CONFIG
-        self.pcp = get_settings().ProjectConfigParser()
+        self.pcp = ProjectConfigParser()
 
     @patch("toml.load")
     def test_read_project_config__returns_config(self, mock_toml):
 
         mock_toml.return_value = SAMPLE_CONFIG
 
-        actual = get_settings().ProjectConfigParser()
+        actual = ProjectConfigParser()
 
         self.assertEqual(
             actual.project_config,
@@ -42,7 +42,8 @@ class TestProjectConfigParser(TestCase):
         self.pcp.config_file_path = "invalid/path"
 
         with self.assertLogs() as logger_context:
-            self.pcp.read_project_config()
+            with self.assertRaises(FileNotFoundError):
+                self.pcp.read_project_config()
 
         self.assertEqual(
             logger_context.output[1],

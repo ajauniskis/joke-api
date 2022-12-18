@@ -38,11 +38,11 @@ class TestProjectConfigParser(TestCase):
             SAMPLE_CONFIG,
         )
 
-    def test_read_project_config_invalid_file_location__logs_error(self):
+    def test_read_project_config_invalid_file_location__logs_error_and_throws(self):
         self.pcp.config_file_path = "invalid/path"
 
         with self.assertLogs() as logger_context:
-            with self.assertRaises(FileNotFoundError):
+            with self.assertRaises(FileNotFoundError) as exception_context:
                 self.pcp.read_project_config()
 
         self.assertEqual(
@@ -51,10 +51,16 @@ class TestProjectConfigParser(TestCase):
             + f" {self.pcp.config_file_path}",
         )
 
+        self.assertEqual(
+            str(exception_context.exception),
+            "[Errno 2] No such file or directory: 'invalid/path'",
+        )
+
     @patch("toml.load", side_effect=TomlDecodeError("", "", 0))
     def test_read_project_config_invalid_file_structure__logs_error(self, mock_toml):
         with self.assertLogs() as logger_context:
-            self.pcp.read_project_config()
+            with self.assertRaises(TomlDecodeError):
+                self.pcp.read_project_config()
 
         self.assertEqual(
             logger_context.output[1],

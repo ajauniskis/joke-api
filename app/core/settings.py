@@ -26,8 +26,8 @@ class Settings(BaseSettings):
 
 
 class ProjectConfigParser:
-    def __init__(self, config_file_path: str = "pyproject.toml") -> None:
-        self.config_file_path = config_file_path
+    def __init__(self) -> None:
+        self.config_file_path = "pyproject.toml"
         self.project_config = self.read_project_config()
 
     def read_project_config(self) -> Dict:

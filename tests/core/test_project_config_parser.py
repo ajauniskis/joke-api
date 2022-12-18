@@ -70,14 +70,11 @@ class TestProjectConfigParser(TestCase):
             SAMPLE_CONFIG["tool"]["poetry"]["version"],
         )
 
-    def test_get_project_version_key_not_found__returns_NA(self):
-        self.pcp.project_config = None
-        actual = self.pcp.version
+    def test_get_project_version_key_not_found__throws(self):
+        self.pcp.project_config = {}
 
-        self.assertEqual(
-            actual,
-            "N/A",
-        )
+        with self.assertRaises(KeyError):
+            self.pcp.version
 
     def test_get_project_description__returns_version(self):
         actual = self.pcp.description
@@ -87,14 +84,10 @@ class TestProjectConfigParser(TestCase):
             SAMPLE_CONFIG["tool"]["poetry"]["description"],
         )
 
-    def test_get_project_description_key_not_found__returns_NA(self):
-        self.pcp.project_config = None
-        actual = self.pcp.description
-
-        self.assertEqual(
-            actual,
-            "N/A",
-        )
+    def test_get_project_description_key_not_found__throws(self):
+        self.pcp.project_config = {}
+        with self.assertRaises(KeyError):
+            self.pcp.description
 
     def test_get_project_contacts__returns_version(self):
         actual = self.pcp.contacts
@@ -105,10 +98,7 @@ class TestProjectConfigParser(TestCase):
         )
 
     def test_get_project_contacts_key_not_found__returns_empty(self):
-        self.pcp.project_config = None
-        actual = self.pcp.contacts
+        self.pcp.project_config = {}
 
-        self.assertEqual(
-            actual,
-            {},
-        )
+        with self.assertRaises(KeyError):
+            self.pcp.contacts

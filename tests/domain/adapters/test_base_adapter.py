@@ -6,9 +6,7 @@ class TestBaseAdapter(TestCase):
     def test_base_adapter__logs_and_throws(self):
 
         with self.assertRaises(TypeError) as exception_context:
-            base_adapter = (  # noqa: 841
-                BaseAdapter()
-            )  # pyright: ignore (reportGeneralTypeIssues)
+            BaseAdapter()  # pyright: ignore (reportGeneralTypeIssues)
 
         self.assertEqual(
             str(exception_context.exception),

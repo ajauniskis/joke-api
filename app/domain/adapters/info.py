@@ -13,14 +13,8 @@ from app.domain.adapters.settings import SettingsAdapter
 
 
 class InfoAdapter(BaseAdapter):
-    def __init__(
-        self,
-        settings_adapter: SettingsAdapter = Depends(SettingsAdapter),
-        project_config_adapter: ProjectConfigAdapter = Depends(ProjectConfigAdapter),
-    ) -> None:
-        super().__init__
-        self.settings_adapter = settings_adapter
-        self.project_config_adapter = project_config_adapter
+    settings_adapter: SettingsAdapter = Depends(SettingsAdapter)
+    project_config_adapter: ProjectConfigAdapter = Depends(ProjectConfigAdapter)
 
     async def get(self) -> InfoResponse:
         settings = await self.settings_adapter.get()

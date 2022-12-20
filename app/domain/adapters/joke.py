@@ -6,12 +6,7 @@ from app.domain.adapters.base import BaseAdapter
 
 
 class JokeAdapter(BaseAdapter):
-    def __init__(
-        self,
-        joke_repository=Depends(None),
-    ) -> None:
-        super().__init__()
-        self.joke_repository = joke_repository
+    joke_repository = Depends(None)
 
     async def get(self):
         raise NotImplementedError

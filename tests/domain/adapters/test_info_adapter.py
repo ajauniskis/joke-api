@@ -18,12 +18,8 @@ from app.overrides.settings_adapter import SettingsAdapterOverride
 class TestInfoAdapter(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self.info_adapter = InfoAdapter()
-        self.info_adapter.settings_adapter = (
-            SettingsAdapterOverride()
-        )  # pyright:  ignore [reportGeneralTypeIssues]
-        self.info_adapter.project_config_adapter = (
-            ProjectConfigAdapterOverride()
-        )  # pyright:  ignore [reportGeneralTypeIssues]
+        self.info_adapter.settings_adapter = SettingsAdapterOverride()
+        self.info_adapter.project_config_adapter = ProjectConfigAdapterOverride()
 
     async def test_get__returns_info_response(self):
         actual = await self.info_adapter.get()

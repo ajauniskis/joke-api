@@ -1,8 +1,8 @@
-from app.domain.adapters.base import BaseAdapter
-from app.domain.adapters.settings import Settings
+from app.domain.adapters.settings import SettingsAdapter
+from app.domain.models.settings import Settings
 
 
-class SettingsAdapterOverride(BaseAdapter):
+class SettingsAdapterOverride(SettingsAdapter):
     @classmethod
     async def get(cls) -> Settings:
         return Settings(

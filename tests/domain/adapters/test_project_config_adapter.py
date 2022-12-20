@@ -13,9 +13,7 @@ from app.overrides.project_config import ProjectConfigParserOverride
 class TestProjectConfigAdapter(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self.project_config_adapter = ProjectConfigAdapter()
-        self.project_config_adapter.project_config = (
-            ProjectConfigParserOverride()
-        )  # pyright:  ignore [reportGeneralTypeIssues]
+        self.project_config_adapter.project_config = ProjectConfigParserOverride()
 
     async def test_get__returns_project_config(self):
         expected = ProjectConfig(

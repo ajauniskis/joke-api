@@ -1,9 +1,11 @@
 from typing import List, Optional
 
-from pydantic import BaseSettings, SecretStr
+from pydantic import SecretStr
+
+from app.core.settings import Settings
 
 
-class SettingsOveride(BaseSettings):
+class SettingsOveride(Settings):
     app_name: str = "app_name"
     categories: List[str] = ["test"]
     environment: str = "test"

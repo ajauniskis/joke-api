@@ -2,11 +2,12 @@ from typing import Dict, Optional, Union
 
 from pydantic import HttpUrl
 
-from app.domain.adapters.base import BaseAdapter
+from app.core.settings import ProjectConfigParser
+from app.domain.adapters.project_config import ProjectConfigAdapter
 from app.domain.models.project_config import Contacts, License, ProjectConfig
 
 
-class ProjectConfigAdapterOverride(BaseAdapter):
+class ProjectConfigAdapterOverride(ProjectConfigAdapter):
     async def get(self) -> ProjectConfig:
         return ProjectConfig(
             version="version",
@@ -24,7 +25,7 @@ class ProjectConfigAdapterOverride(BaseAdapter):
         pass
 
 
-class ProjectConfigParserOverride:
+class ProjectConfigParserOverride(ProjectConfigParser):
     @property
     def version(self) -> str:
         return "version"

@@ -14,9 +14,7 @@ class TestSettingsAdapter(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         os.environ["ENVIRONMENT"] = "test"
         self.settings_adapter = SettingsAdapter()
-        self.settings_adapter.settings = (
-            SettingsOveride()
-        )  # pyright:  ignore [reportGeneralTypeIssues]
+        self.settings_adapter.settings = SettingsOveride()
 
     async def test_get__returns_settings(self):
         expected = Settings(

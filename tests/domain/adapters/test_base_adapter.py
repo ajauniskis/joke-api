@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 from app.domain.adapters.base import BaseAdapter
 
 

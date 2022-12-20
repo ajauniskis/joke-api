@@ -2,24 +2,11 @@ from unittest import TestCase
 
 from fastapi.testclient import TestClient
 
-from app.api.v1.schemas.joke import PostJokeRequest, PostJokeRespone
+from app.api.v1.schemas.joke import PostJokeRequest
 from app.core.app import app
 from app.core.settings import get_settings
-from app.domain.adapters.base import BaseAdapter
 from app.domain.adapters.joke import JokeAdapter
-
-
-class JokeAdapterOverride(BaseAdapter):
-    async def get(self) -> None:
-        pass
-
-    async def post(self, request: PostJokeRequest) -> PostJokeRespone:
-        return PostJokeRespone(
-            detail="Joke added succesfully",
-            category="dev",
-            question="question",
-            punchline="punchline",
-        )
+from app.overrides.joke_adapter import JokeAdapterOverride
 
 
 class TestJoke(TestCase):

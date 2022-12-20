@@ -1,33 +1,10 @@
 from unittest import TestCase
 
 from fastapi.testclient import TestClient
-from pydantic import HttpUrl
 
-from app.api.v1.schemas.info import (InfoContactsUrlResponse,
-                                     InfoLicenseResponse, InfoResponse)
 from app.core.app import app
-from app.domain.adapters.base import BaseAdapter
 from app.domain.adapters.info import InfoAdapter
-
-
-class InfoAdapterOverride(BaseAdapter):
-    async def get(self) -> InfoResponse:
-        return InfoResponse(
-            title="title",
-            description="description",
-            version="version",
-            contacts=InfoContactsUrlResponse(
-                url=HttpUrl("http://localhost", scheme="https")
-            ),
-            categories=["category"],
-            license=InfoLicenseResponse(
-                name="name",
-                url=HttpUrl("http://localhost", scheme="https"),
-            ),
-        )
-
-    async def post(self) -> None:
-        pass
+from app.overrides.info_adapter import InfoAdapterOverride
 
 
 class TestInfo(TestCase):

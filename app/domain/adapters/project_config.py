@@ -8,7 +8,12 @@ from app.domain.models.project_config import Contacts, License, ProjectConfig
 
 
 class ProjectConfigAdapter(BaseAdapter):
-    project_config: ProjectConfigParser = Depends(ProjectConfigParser)
+    def __init__(
+        self,
+        project_config: ProjectConfigParser = Depends(ProjectConfigParser),
+    ) -> None:
+        super().__init__()
+        self.project_config = project_config
 
     async def get(self) -> ProjectConfig:
         return ProjectConfig(

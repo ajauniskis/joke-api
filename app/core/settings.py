@@ -1,5 +1,5 @@
 from functools import lru_cache
-from typing import Dict, Optional, Union
+from typing import Dict, List, Optional, Union
 
 import toml
 from pydantic import BaseSettings, HttpUrl, SecretStr
@@ -10,8 +10,8 @@ from app.core.logger import logger
 class Settings(BaseSettings):
     """Application settings."""
 
-    app_name = "Joke API"
-    categories = ["dev", "dogs"]
+    app_name: str = "Joke API"
+    categories: List[str] = ["dev", "dogs"]
     """Database variables"""
     environment: str
     database_host: str

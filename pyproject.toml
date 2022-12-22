@@ -6,6 +6,7 @@ authors = ["Algirdas Jauniskis <jauniskis.a@gmail.com>"]
 readme = "README.md"
 packages=[{include = "app"}]
 repository="https://github.com/ajauniskis/joke-api"
+license="MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -52,3 +53,6 @@ exclude_dirs = [
 [tool.flake8]
 max-line-length = 88
 exclude = [".venv", "__pycache__"]
+
+[tool.isort]
+profile = "black"

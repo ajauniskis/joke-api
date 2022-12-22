@@ -1,8 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 
 class InfoContactsUrlResponse(BaseModel):
-    url: str
+    url: HttpUrl
+
+
+class InfoLicenseResponse(BaseModel):
+    name: str
+    url: HttpUrl
 
 
 class InfoResponse(BaseModel):
@@ -11,3 +16,4 @@ class InfoResponse(BaseModel):
     version: str
     contacts: InfoContactsUrlResponse
     categories: list
+    license: InfoLicenseResponse

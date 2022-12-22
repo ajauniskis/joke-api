@@ -1,33 +1,24 @@
-from unittest import IsolatedAsyncioTestCase
+from unittest import TestCase
 
-import pytest
 from fastapi.testclient import TestClient
 
 from app.api.v1.schemas.joke import PostJokeRequest
 from app.core.app import app
 from app.core.settings import get_settings
-from app.db.mongodb import get_client
+from app.domain.adapters.joke import JokeAdapter
+from app.overrides.joke_adapter import JokeAdapterOverride
 
 
-@pytest.mark.asyncio
-class TestJoke(IsolatedAsyncioTestCase):
-    async def asyncSetUp(self) -> None:
-        self.test_collection_name = "test_collection"
-        get_settings().categories = [self.test_collection_name]
-        self.mongo_client = get_client()
-        await self.mongo_client._create_collection(self.test_collection_name)
+class TestJoke(TestCase):
+    def setUp(self) -> None:
         self.client = TestClient(app)
+        app.dependency_overrides[JokeAdapter] = JokeAdapterOverride
         self.post_joke_request = PostJokeRequest(
-            category=self.test_collection_name,
+            category="dev",
             question="question",
             punchline="punchline",
         )
-
-    async def asyncTearDown(self) -> None:
-        test_collection = await self.mongo_client.get_collection(
-            self.test_collection_name
-        )
-        await self.mongo_client.drop_collection(test_collection)
+        self.settings = get_settings()
 
     def test_post_joke__returns_201(self):
         response = self.client.post(
@@ -90,7 +81,7 @@ class TestJoke(IsolatedAsyncioTestCase):
             "detail": [
                 {
                     "loc": ["body", "category"],
-                    "msg": "value must be in ['test_collection']",
+                    "msg": f"value must be in {self.settings.categories}",
                     "type": "value_error",
                 }
             ]

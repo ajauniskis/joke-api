@@ -3,12 +3,14 @@ from unittest import TestCase
 from fastapi.testclient import TestClient
 
 from app.core.app import app
-from app.core.settings import get_settings
+from app.domain.adapters.info import InfoAdapter
+from app.overrides.info_adapter import InfoAdapterOverride
 
 
 class TestInfo(TestCase):
     def setUp(self) -> None:
         self.client = TestClient(app)
+        app.dependency_overrides[InfoAdapter] = InfoAdapterOverride
 
     def test_get_info__returns_200(self):
         response = self.client.get("/api/v1/info").status_code
@@ -19,14 +21,18 @@ class TestInfo(TestCase):
         )
 
     def test_get_info__returns_info(self):
-        settings = get_settings()
-        config = settings.ProjectConfigParser()
         expected = {
-            "title": settings.app_name,
-            "description": config.get_project_description(),
-            "version": config.get_project_version(),
-            "contacts": config.get_project_contacts(),
-            "categories": settings.categories,
+            "title": "title",
+            "description": "description",
+            "version": "version",
+            "contacts": {
+                "url": "http://localhost",
+            },
+            "categories": ["category"],
+            "license": {
+                "name": "name",
+                "url": "http://localhost",
+            },
         }
         actual = self.client.get("/api/v1/info").json()
 

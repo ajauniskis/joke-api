@@ -9,7 +9,7 @@ repository="https://github.com/ajauniskis/joke-api"
 license="MIT"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 pre-commit = "^2.20.0"
 fastapi = "0.85.1"
 uvicorn = "0.18.3"

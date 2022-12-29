@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from app.db.models.object import PyObjectId
 
 
-class JokeModel(BaseModel):
+class JokeRecord(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     question: str
     punchline: str

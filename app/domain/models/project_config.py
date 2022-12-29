@@ -1,16 +1,18 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import HttpUrl
+
+from app.domain.models.abstract import AbstractModel
 
 
-class License(BaseModel):
+class License(AbstractModel):
     name: str
     url: HttpUrl
 
 
-class Contacts(BaseModel):
+class Contacts(AbstractModel):
     url: HttpUrl
 
 
-class ProjectConfig(BaseModel):
+class ProjectConfig(AbstractModel):
     version: str
     description: str
     contacts: Contacts

@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from pydantic import SecretStr
+from pydantic.env_settings import SettingsSourceCallable
 
 from app.core.settings import Settings
 
@@ -18,3 +19,12 @@ class SettingsOveride(Settings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
+        @classmethod
+        def customise_sources(
+            cls,
+            init_settings: SettingsSourceCallable,
+            env_settings: SettingsSourceCallable,
+            file_secret_settings: SettingsSourceCallable,
+        ) -> None:
+            return None

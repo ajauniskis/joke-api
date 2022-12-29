@@ -1,7 +1,6 @@
 from pydantic import BaseModel, validator
 
 from app.core.settings import get_settings
-from app.db.models.joke import JokeModel
 
 
 class PostJokeRespone(BaseModel):
@@ -29,17 +28,3 @@ class PostJokeRequest(BaseModel):
             raise ValueError(f"value must be in {get_settings().categories}")
 
         return value
-
-    async def to_database_model(self) -> JokeModel:
-        return JokeModel(
-            question=self.question,
-            punchline=self.punchline,
-        )
-
-    def to_response(self) -> PostJokeRespone:
-        return PostJokeRespone(
-            detail="Joke added succesfully",
-            category=self.category,
-            question=self.question,
-            punchline=self.punchline,
-        )

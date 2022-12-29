@@ -6,12 +6,14 @@ from app.api.v1.schemas.joke import PostJokeRequest, PostJokeRespone
 from app.core.settings import get_settings
 from app.db.mongodb import MongoClient
 from app.domain.adapters.joke import JokeAdapter
+from app.overrides.joke_repository import JokeRepositoryOverride
 
 
 @pytest.mark.asyncio
 class TestJokeAdapter(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         self.joke_adapter = JokeAdapter()
+        self.joke_adapter.joke_repository = JokeRepositoryOverride()
         settings = get_settings()
         settings.categories = ["test"]
         db = MongoClient()

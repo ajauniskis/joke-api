@@ -1,14 +1,15 @@
 from fastapi import Depends
 
 from app.api.v1.schemas.joke import PostJokeRequest, PostJokeRespone
-from app.db.database import client as database
 from app.domain.adapters.base import BaseAdapter
+from app.domain.models import JokeModel
+from app.repositories import JokeRepository
 
 
 class JokeAdapter(BaseAdapter):
     def __init__(
         self,
-        joke_repository=Depends(None),
+        joke_repository: JokeRepository = Depends(JokeRepository),
     ) -> None:
         super().__init__()
         self.joke_repository = joke_repository
@@ -16,10 +17,11 @@ class JokeAdapter(BaseAdapter):
     async def get(self):
         raise NotImplementedError
 
-    @classmethod
-    async def post(cls, request: PostJokeRequest) -> PostJokeRespone:
-        database_model = await request.to_database_model()
-        await database.write(database_model, request.category)
+    async def post(self, request: PostJokeRequest) -> PostJokeRespone:
+        joke = JokeModel(**request.dict())
+        response = await self.joke_repository.add(joke)
 
-        response = request.to_response()
-        return response
+        return PostJokeRespone(
+            detail="Joke added succesfully",
+            **response.dict(),
+        )

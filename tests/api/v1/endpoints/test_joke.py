@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from fastapi.testclient import TestClient
 
-from app.api.v1.schemas.joke import PostJokeRequest
+from app.api.v1.schemas.joke import PostJokeRequest, PostJokeRespone
 from app.core.app import app
 from app.core.settings import get_settings
 from app.domain.adapters.joke import JokeAdapter
@@ -37,7 +37,12 @@ class TestJoke(TestCase):
             json=self.post_joke_request.dict(),
         )
 
-        expected = self.post_joke_request.to_response()
+        expected = PostJokeRespone(
+            detail="Joke added succesfully",
+            category="dev",
+            question="question",
+            punchline="punchline",
+        )
 
         self.assertEqual(
             response.json(),

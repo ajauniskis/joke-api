@@ -1,9 +1,9 @@
 from typing import List
 
-from pydantic import BaseModel
+from app.domain.models.abstract import AbstractModel
 
 
-class Settings(BaseModel):
+class Settings(AbstractModel):
     app_name: str
     environment: str
     categories: List[str]

@@ -7,26 +7,17 @@ from app.domain.models.abstract import AbstractModel
 
 
 class AbstractRepository(ABC):
+    @abstractmethod
     async def add(self, joke: AbstractModel) -> AbstractModel:
-        return await self._add(joke)
+        logger.error("BaseAdapter should not be used.")
+        raise exceptions.NotSupportedException("BaseAdapter should not be used.")
 
+    @abstractmethod
     async def get_all(self) -> List[AbstractModel]:
-        return await self._get_all()
+        logger.error("BaseAdapter should not be used.")
+        raise exceptions.NotSupportedException("BaseAdapter should not be used.")
 
+    @abstractmethod
     async def get_random(self) -> AbstractModel:
-        return await self._get_random()
-
-    @abstractmethod
-    async def _add(self, joke: AbstractModel) -> AbstractModel:
-        logger.error("BaseAdapter should not be used.")
-        raise exceptions.NotSupportedException("BaseAdapter should not be used.")
-
-    @abstractmethod
-    async def _get_all(self) -> List[AbstractModel]:
-        logger.error("BaseAdapter should not be used.")
-        raise exceptions.NotSupportedException("BaseAdapter should not be used.")
-
-    @abstractmethod
-    async def _get_random(self) -> AbstractModel:
         logger.error("BaseAdapter should not be used.")
         raise exceptions.NotSupportedException("BaseAdapter should not be used.")
